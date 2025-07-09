@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Task Scheduling Website</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      overflow: hidden;
+      background: skyblue;
+      font-family: 'Arial', sans-serif;
+    }
+
+    .site-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  padding: 10px;
+  /* background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,0.7)); */
+  /* backdrop-filter: blur(5px); */
+  /* border-bottom: 2px solid rgba(46, 125, 50, 0.3); */
+  z-index: 50;
+  /* box-shadow: 0 2px 10px rgba(0,0,0,0.1); */
+}
+
+.site-title {
+  font-size: 2.5rem;
+  color: #0f035b;
+  margin: 0;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+  font-family: 'Georgia', serif;
+}
+
+.site-tagline {
+  font-size: 1rem;
+  color: #059a4a;
+  margin: 5px 0 0 0;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.tree-container {
+  position: absolute;
+  bottom: 120px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  width: 400px;
+  height: 500px;
+  margin-top: 120px;
+}
+
+    .sky {
+      width: 100%;
+      height: 100vh;
+      position: relative;
+      background: linear-gradient(to bottom, #87ceeb 70%, #228B22 70%);
+    }
+
+    .cloud {
+      position: absolute;
+      background: white;
+      width: 100px;
+      height: 60px;
+      border-radius: 50%;
+      animation: moveCloud 60s linear infinite;
+      opacity: 0.9;
+      filter: drop-shadow(0 0 5px rgba(255,255,255,0.7));
+    }
+
+    .cloud::before, .cloud::after {
+      content: '';
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+    }
+
+    .cloud::before {
+      width: 70px;
+      height: 70px;
+      top: -20px;
+      left: 20px;
+    }
+
+    .cloud::after {
+      width: 60px;
+      height: 60px;
+      top: -10px;
+      left: 50px;
+    }
+
+    .cloud1 { top: 60px; left: -150px; animation-delay: 0s; width: 120px; height: 70px; }
+    .cloud2 { top: 120px; left: -300px; animation-delay: 15s; width: 150px; height: 80px; }
+    .cloud3 { top: 200px; left: -400px; animation-delay: 30s; width: 180px; height: 90px; }
+
+    @keyframes moveCloud {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(130vw); }
+    }
+
+    .tree-container {
+      position: absolute;
+      bottom: 120px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      width: 400px;
+      height: 500px;
+    }
+
+    .tree {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .trunk {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 30px;
+      height: 300px;
+      background: linear-gradient(to right, #5D4037, #6D4C41, #5D4037);
+      border-radius: 10px 10px 5px 5px;
+      z-index: 2;
+      box-shadow: 
+        inset 3px 0 8px rgba(0,0,0,0), 
+        inset -3px 0 8px rgba(0,0,0,0);
+    }
+
+    .trunk::before {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 20px;
+      background: #5D4037;
+      border-radius: 50% 50% 0 0;
+      z-index: 1;
+    }
+
+    .branch {
+      position: absolute;
+      background: linear-gradient(to bottom, #6D4C41, #5D4037);
+      transform-origin: bottom center;
+      border-radius: 10px;
+      z-index: 1;
+      box-shadow: 
+        inset 2px 0 4px rgba(0,0,0,0),
+        inset -2px 0 4px rgba(0,0,0,0); 
+    }
+
+    .main-branch {
+      width: 15px;
+      height: 160px;
+      border-radius: 6px 6px 0 0;
+    }
+
+    .sub-branch {
+      width: 12px;
+      height: 100px;
+      border-radius: 4px 4px 0 0;
+    }
+
+    .grass {
+      position: absolute;
+      bottom: 0;
+      height: 120px;
+      width: 100%;
+      background: linear-gradient(to top, #228B22, #32CD32);
+      z-index: 1;
+      box-shadow: inset 0 10px 20px rgba(0,0,0,0.1);
+    }
+
+    .flower {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: yellow;
+      border-radius: 50%;
+      z-index: 2;
+    }
+
+    .flower::before,
+    .flower::after {
+      content: '';
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: pink;
+      border-radius: 50%;
+    }
+
+    .flower::before {
+      top: -5px;
+      left: -3px;
+    }
+
+    .flower::after {
+      top: -5px;
+      left: 3px;
+    }
+
+    .flower-stem {
+      position: absolute;
+      background: #228B22;
+      width: 2px;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1;
+    }
+
+    /* Task Leaves */
+    .leaf {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      border-radius: 50% 0 50% 50%;
+      z-index: 3;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 10px;
+      font-weight: bold;
+      color: rgba(0, 0, 0, 0.7);
+      text-align: center;
+      word-break: break-word;
+      padding: 5px;
+      box-sizing: border-box;
+      transition: all 0.3s;
+      transform-origin: center;
+      filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.3));
+    }
+
+    .leaf.high {
+      background: #ef5350;
+    }
+
+    .leaf.medium {
+      background: #ffca28;
+    }
+
+    .leaf.low {
+      background: #66bb6a;
+    }
+
+    .leaf.completed {
+      background: #8D6E63 !important;
+      opacity: 0.7;
+      transform: scale(0.9);
+    }
+
+    .leaf.falling {
+      animation: leafFall 1.5s forwards;
+    }
+
+    @keyframes leafFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(300px) rotate(360deg); opacity: 0; }
+    }
+
+    /* Task Form */
+    .task-form-container {
+      position: absolute;
+      bottom: 5%;
+      right: 5%;
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      z-index: 10;
+      width: 300px;
+      display: none;
+    }
+
+    .task-form-container h2 {
+      margin-bottom: 15px;
+      color: #2E7D32;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 10px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      color: #2E7D32;
+      font-weight: bold;
+    }
+
+    .form-group input, 
+    .form-group select, 
+    .form-group textarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #BDBDBD;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    .form-group textarea {
+      height: 60px;
+      resize: vertical;
+    }
+
+    #addTaskBtn, #submitTaskBtn {
+      background-color: #3d2369;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      width: 100%;
+      font-weight: bold;
+    }
+
+    .close-form-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: none;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+        color: #757575;
+}
+
+    #addTaskBtn {
+      position: absolute;
+      bottom: 5%;
+      right: 5%;
+      width: auto;
+      padding: 10px 20px;
+      z-index: 10;
+    }
+
+    #submitTaskBtn:hover {
+      background-color: #388E3C;
+    }
+
+    /* Task Details Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 400px;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .modal-title {
+      font-size: 20px;
+      color: #2E7D32;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #757575;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    .modal-actions button {
+      padding: 8px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    #completeBtn {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    #incompleteBtn {
+      background-color: #FFA000;
+      color: white;
+      display: none;
+    }
+
+    #deleteBtn {
+      background-color: #F44336;
+      color: white;
+    }
+
+    #saveBtn {
+      background-color: #2196F3;
+      color: white;
+    }
+
+    .no-tasks {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #2E7D32;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  width: 100%;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+#clearAllBtn {
+  background-color: #F44336;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  position: absolute;
+  bottom: 5%;
+  right: 190px;
+  z-index: 10;
+  font-weight: bold;
+}
+
+#clearAllBtn:hover {
+  background-color: #D32F2F;
+}
+
+#clearAllBtn {
+  display: none;
+}
+
+
+.leaf {
+  transition: all 0.5s ease;
+  will-change: transform;
+}
+
+
+.branch-selection {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.2);
+  z-index: 1000;
+  text-align: center;
+}
+
+.branch-options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.branch-option {
+  width: 50px;
+  height: 50px;
+  background: #1bdad7;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.branch-option:hover {
+  background: #310739;
+  transform: scale(1.1);
+}
+
+.branch-option.selected {
+  background: #4CAF50;
+  transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(76, 175, 80, 0.7);
+}
+
+#confirmBranch {
+  background: #00e372;
+  color: white;
+  padding: 10px 20px;
+  margin-right: 10px;
+}
+
+  </style>
+</head>
+<body>
+
+  <div class="sky">
+    <header class="site-header">
+  <h1 class="site-title">Task Scheduling Tree</h1>
+ <p class="site-tagline">Branch out your productivity and stay organized</p>
+</header>
+    <!-- Clouds -->
+    <div class="cloud cloud1"></div>
+    <div class="cloud cloud2"></div>
+    <div class="cloud cloud3"></div>
+
+    <!-- Tree -->
+    <div class="tree-container">
+      <div class="tree" id="tree">
+        <div class="trunk"></div>
+        <!-- Branches added by JavaScript -->
+        <div id="leavesContainer"></div>
+      </div>
+    </div>
+
+    <!-- Grass -->
+    <div class="grass" id="grass"></div>
+
+    <!-- Add Task Button -->
+    <button id="addTaskBtn">Add Task</button>
+<button id="clearAllBtn">Clear All Tasks</button>
+
+    <div class="task-form-container" id="taskForm">
+      <h2>Add New Task</h2>
+    <button class="close-form-btn" id="closeFormBtn">&times;</button>
+      <div class="form-group">
+        <label for="taskName">Task Name</label>
+        <input type="text" id="taskName" placeholder="Enter task name">
+      </div>
+      <div class="form-group">
+        <label for="taskPriority">Priority</label>
+        <select id="taskPriority">
+          <option value="high">High</option>
+          <option value="medium" selected>Medium</option>
+          <option value="low">Low</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="taskDate">Due Date</label>
+        <input type="date" id="taskDate">
+      </div>
+      <div class="form-group">
+        <label for="taskDescription">Description (Optional)</label>
+        <textarea id="taskDescription" placeholder="Enter description"></textarea>
+      </div>
+      <button id="submitTaskBtn">Add Task</button>
+    </div>
+
+
+<div class="branch-selection" id="branchSelection" style="display:none;">
+  <h3>Select a branch for your task</h3>
+  <div class="branch-options">
+    <!-- Options added by JavaScript -->
+  </div>
+  <button id="confirmBranch">Place Leaf Here</button>
+   <button id="cancelBranchBtn">Cancel</button>
+</div>
+
+  </div>
+
+  <!-- Task Details Modal -->
+  <div class="modal" id="taskModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Task Details</h2>
+        <button class="close-btn" id="closeModalBtn">&times;</button>
+      </div>
+      <div class="form-group">
+        <label for="editTaskName">Task Name</label>
+        <input type="text" id="editTaskName">
+      </div>
+      <div class="form-group">
+        <label for="editTaskPriority">Priority</label>
+        <select id="editTaskPriority">
+          <option value="high">High</option>
+          <option value="medium">Medium</option>
+          <option value="low">Low</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="editTaskDate">Due Date</label>
+        <input type="date" id="editTaskDate">
+      </div>
+      <div class="form-group">
+        <label for="editTaskDescription">Description</label>
+        <textarea id="editTaskDescription"></textarea>
+      </div>
+      <div class="modal-actions">
+        <button id="deleteBtn">Delete</button>
+        <button id="incompleteBtn">Mark Incomplete</button>
+        <button id="completeBtn">Mark Complete</button>
+        <button id="saveBtn">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // DOM Elements
+      const tree = document.getElementById('tree');
+      const leavesContainer = document.getElementById('leavesContainer');
+      const addTaskBtn = document.getElementById('addTaskBtn');
+      const taskForm = document.getElementById('taskForm');
+      const taskNameInput = document.getElementById('taskName');
+      const taskPrioritySelect = document.getElementById('taskPriority');
+      const taskDateInput = document.getElementById('taskDate');
+      const taskDescriptionInput = document.getElementById('taskDescription');
+      const submitTaskBtn = document.getElementById('submitTaskBtn');
+      const taskModal = document.getElementById('taskModal');
+      const closeModalBtn = document.getElementById('closeModalBtn');
+      const editTaskName = document.getElementById('editTaskName');
+      const editTaskPriority = document.getElementById('editTaskPriority');
+      const editTaskDate = document.getElementById('editTaskDate');
+      const editTaskDescription = document.getElementById('editTaskDescription');
+      const deleteBtn = document.getElementById('deleteBtn');
+      const completeBtn = document.getElementById('completeBtn');
+      const incompleteBtn = document.getElementById('incompleteBtn');
+      const saveBtn = document.getElementById('saveBtn');
+       // Set default date to today
+      const today = new Date().toISOString().split('T')[0];
+      taskDateInput.value = today;
+      editTaskDate.value = today;
+      
+      // Initializing tasks array from localStorage or empty array
+      let tasks = JSON.parse(localStorage.getItem('treeTasks')) || [];
+      tasks = tasks.filter(task => task && task.id);
+      let currentTaskId = null;
+      let currentLeafElement = null;
+      let isPlacementMode = false;
+      let selectedBranchIndex = null;
+
+      // Create tree branches 
+      const trunk = document.querySelector('.trunk');
+      const branchAngles = [-70,-50, -39, -29, -8, 6, 25, 30, 50, 70];
+      const branchHeights = [0.32, 0.37, 0.45, 0.54, 0.5, 0.5, 0.5, 0.4, 0.37, 0.32];
+      
+      branchAngles.forEach((angle, index) => {
+        const branch = document.createElement('div');
+        branch.className = 'branch main-branch';
+        branch.style.width = '15px';
+        branch.style.height = '180px';
+        branch.style.left = '50%';
+        branch.style.bottom = `${branchHeights[index] * 100}%`;
+        branch.style.transform = `translateX(-50%) rotate(${angle}deg)`;
+        
+        for (let i = 0; i < 2; i++) {
+          const subAngle = -20 + (i * 30);
+          const subLength = 40 + 1 * 30;
+          const subPosition = 0.65 + (i * 0.2);
+          
+          const subBranch = document.createElement('div');
+          subBranch.className = 'branch sub-branch';
+          subBranch.style.width = '12px';
+          subBranch.style.height = `${subLength}px`;
+          subBranch.style.left = '50%';
+          subBranch.style.bottom = `${subPosition * 100}%`;
+          subBranch.style.transform = `translateX(-50%) rotate(${subAngle}deg)`;
+          
+          branch.appendChild(subBranch);
+        }
+        
+        tree.appendChild(branch);
+      });
+
+      // Generate flowers 
+      const grass = document.getElementById('grass');
+      for (let i = 0; i < 50; i++) {
+        const flowerHeight = 15 + 1 * 25;
+        const flowerLeft = Math.random() * 95 + '%';
+        const flowerBottom = Math.random() * 30 + 'px';
+        
+        const stem = document.createElement('div');
+        stem.classList.add('flower-stem');
+        stem.style.height = flowerHeight + 'px';
+        stem.style.left = flowerLeft;
+        stem.style.bottom = flowerBottom;
+        grass.appendChild(stem);
+        
+        const flower = document.createElement('div');
+        flower.classList.add('flower');
+        flower.style.left = flowerLeft;
+        flower.style.bottom = `calc(${flowerBottom} + ${flowerHeight}px)`;
+        grass.appendChild(flower);
+      }
+      renderTasks();
+      
+      // Event Listeners
+      document.getElementById('clearAllBtn').addEventListener('click', clearAllTasks);
+
+      addTaskBtn.addEventListener('click', showTaskForm);
+      submitTaskBtn.addEventListener('click', addTask);
+      closeModalBtn.addEventListener('click', closeModal);
+      deleteBtn.addEventListener('click', deleteTask);
+      completeBtn.addEventListener('click', toggleComplete);
+      incompleteBtn.addEventListener('click', toggleComplete);
+      saveBtn.addEventListener('click', saveTaskChanges);
+       document.getElementById('confirmBranch').addEventListener('click', function() {
+        if (selectedBranchIndex === null) {
+          alert('Please select a branch first!');
+          return;
+        }
+        placeLeafOnBranch(currentPlacementTask, selectedBranchIndex);
+        document.getElementById('branchSelection').style.display = 'none';
+        selectedBranchIndex = null;
+      });
+
+         document.getElementById('cancelBranchBtn').addEventListener('click', function() {
+        document.getElementById('branchSelection').style.display = 'none';
+        selectedBranchIndex = null;
+        currentPlacementTask = null;
+        addTaskBtn.style.display = 'block';
+        
+        taskNameInput.value = '';
+        taskPrioritySelect.value = 'medium';
+        taskDateInput.value = new Date().toISOString().split('T')[0];
+        taskDescriptionInput.value = '';
+      });
+
+
+document.getElementById('closeFormBtn').addEventListener('click', function(e) {
+    e.preventDefault();
+    taskForm.style.display = 'none';
+    addTaskBtn.style.display = 'block';
+  
+    taskNameInput.value = '';
+    taskPrioritySelect.value = 'medium';
+    taskDateInput.value = new Date().toISOString().split('T')[0];
+    taskDescriptionInput.value = '';
+});
+
+      function showTaskForm() {
+        taskForm.style.display = 'block';
+        addTaskBtn.style.display = 'none';
+      }
+    
+      function addTask() {
+        const taskName = taskNameInput.value.trim();
+        if (!taskName) {
+          alert('Please enter a task name');
+          return;
+        }
+        
+        const newTask = {
+          id: Date.now(),
+          name: taskName,
+          priority: taskPrioritySelect.value,
+          date: taskDateInput.value,
+          description: taskDescriptionInput.value,
+          completed: false,
+          branchIndex: -1 // Will be set during placement
+    };
+
+    startLeafPlacement(newTask);
+        
+        taskNameInput.value = '';
+        taskDescriptionInput.value = '';
+        taskForm.style.display = 'none';
+        addTaskBtn.style.display = 'block';
+      }
+      
+function renderLeaf(task) {
+        const leaf = document.createElement('div');
+        leaf.className = `leaf ${task.priority} ${task.completed ? 'completed' : ''}`;
+        leaf.textContent = task.name.length > 12 ? 
+            task.name.substring(0, 10) + '...' : task.name;
+        leaf.dataset.id = task.id;
+        
+        if (task.position) {
+          leaf.style.left = `${task.position.left}px`;
+          leaf.style.top = `${task.position.top}px`;
+          leaf.style.transform = `rotate(${task.position.rotation}deg)`;
+        }
+        
+        leaf.addEventListener('click', (e) => {
+          e.stopPropagation();
+          currentLeafElement = leaf;
+          openTaskModal(task.id);
+        });
+        
+        leavesContainer.appendChild(leaf);
+      }
+      function renderTasks() {
+    leavesContainer.innerHTML = '';
+        
+        if (tasks.length === 0) {
+          leavesContainer.innerHTML = '<div class="no-tasks">Add your first task to see it appear on the tree!</div>';
+          return;
+        }
+        
+        tasks.forEach(task => {
+          renderLeaf(task);
+        });
+
+        const clearAllBtn = document.getElementById('clearAllBtn');
+if (tasks.length === 0) {
+  clearAllBtn.style.display = 'none';
+} else {
+  clearAllBtn.style.display = 'block';
+}
+      }
+      
+     function createLeaf(task, branch) {
+    const leaf = document.createElement('div');
+    leaf.className = `leaf ${task.priority} ${task.completed ? 'completed' : ''}`;
+    leaf.textContent = task.name.length > 12 ? task.name.substring(0, 10) + '...' : task.name;
+    leaf.title = `${task.name}\nDue: ${task.date}\n${task.description || 'No description'}`;
+    leaf.dataset.id = task.id;
+    
+     if (!task.position) {
+        const angle = getRotationAngle(branch);
+        const radians = angle * Math.PI / 180;
+        const branchLength = parseInt(branch.style.height);
+        
+        // Position at 60% of branch length
+        const length = branchLength * 0.6;
+        
+        // Calculate position along branch
+        const left = Math.sin(radians) * length;
+        const top = Math.cos(radians) * length;
+      // Adjust for branch thickness
+        const branchWidth = parseInt(branch.style.width);
+        const leftAdjust = Math.cos(radians) * branchWidth/2;
+        const topAdjust = Math.sin(radians) * branchWidth/2;
+        
+        task.position = {
+            left: left + leftAdjust,
+            top: top - topAdjust, // Subtract because y-axis is inverted
+            rotation: angle * 0.3
+        };
+        saveTasks();
+    }
+
+    leaf.style.left = `${task.position.left}px`;
+    leaf.style.top = `${task.position.top}px`;
+    leaf.style.transform = `rotate(${task.position.rotation}deg)`;
+
+    leaf.addEventListener('click', (e) => {
+        e.stopPropagation();
+        currentLeafElement = leaf;
+        openTaskModal(task.id);
+    });
+    
+    leavesContainer.appendChild(leaf);
+}
+
+
+function startLeafPlacement(task) {
+  document.getElementById('branchSelection').style.display = 'block';
+
+  const branchOptions = document.querySelector('.branch-options');
+  branchOptions.innerHTML = '';
+
+  const branches = document.querySelectorAll('.main-branch');
+  branches.forEach((branch, i) => {
+    const option = document.createElement('div');
+    option.className = 'branch-option';
+    option.textContent = i + 1;
+    option.dataset.index = i;
+    
+    option.addEventListener('click', function() {
+      document.querySelectorAll('.branch-option').forEach(opt => {
+        opt.classList.remove('selected');
+      });
+      this.classList.add('selected');
+      selectedBranchIndex = i;
+    });
+    
+    branchOptions.appendChild(option);
+  });
+  
+  // Store the task temporarily
+  currentPlacementTask = task;
+}
+
+
+function cancelPlacement(e) {
+    if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+    
+    document.getElementById('branchSelection').style.display = 'none';
+    selectedBranchIndex = null;
+    currentPlacementTask = null;
+    addTaskBtn.style.display = 'block';
+   
+    taskNameInput.value = '';
+    taskPrioritySelect.value = 'medium';
+    taskDateInput.value = new Date().toISOString().split('T')[0];
+    taskDescriptionInput.value = '';
+}
+      
+      // To get rotation angle of an element
+      function getRotationAngle(element) {
+        const style = window.getComputedStyle(element);
+        const transform = style.transform;
+        if (transform === 'none') return 0;
+        const values = transform.split('(')[1].split(')')[0].split(',');
+        return Math.round(Math.atan2(values[1], values[0]) * (180/Math.PI));
+      }
+      
+      function openTaskModal(taskId) {
+        const task = tasks.find(t => t.id == taskId);
+        if (!task) return;
+        
+        currentTaskId = taskId;
+        editTaskName.value = task.name;
+        editTaskDate.value = task.date;
+        editTaskPriority.value = task.priority;
+        editTaskDescription.value = task.description;
+        
+        if (task.completed) {
+          completeBtn.style.display = 'none';
+          incompleteBtn.style.display = 'block';
+        } else {
+          completeBtn.style.display = 'block';
+          incompleteBtn.style.display = 'none';
+        }
+        
+        taskModal.style.display = 'flex';
+      }
+      
+function placeLeafOnBranch(task, branchIndex) {
+  const branches = document.querySelectorAll('.main-branch');
+  const branch = branches[branchIndex];
+  
+  if (!branch) return;
+
+  const leavesOnThisBranch = tasks.filter(t => 
+    t.branchIndex === branchIndex && !t.completed
+  ).length;
+
+  const branchLength = parseInt(branch.style.height);
+  const angle = getRotationAngle(branch);
+  const radians = angle * Math.PI / 180;
+  
+  // Calculates position along branch 
+  const maxLeaves = 4; 
+  const spacing = 0.6 / maxLeaves; 
+  const positionRatio = 0.9 - (leavesOnThisBranch * spacing); // Start at 90% from base
+  const distanceFromBase = branchLength * Math.max(0.3, positionRatio);
+
+  const sideOffset = (leavesOnThisBranch % 2) * 20 - 10; // -10 to +10 pixels
+  const rotationOffset = (leavesOnThisBranch % 2) * 30 - 15; // -15 to +15 degrees
+  
+  // Getting branch base position
+  const treeContainer = document.querySelector('.tree-container');
+  const treeRect = treeContainer.getBoundingClientRect();
+  
+  const branchBaseX = treeRect.width / 2;
+  const branchBaseY = treeRect.height - parseInt(branch.style.bottom) / 100 * treeRect.height;
+  
+  // Calculating leaf position along the branch
+  const leafX = branchBaseX + Math.sin(radians) * distanceFromBase;
+  const leafY = branchBaseY - Math.cos(radians) * distanceFromBase;
+  
+  // perpendicular offset for side positioning
+  const perpX = leafX + Math.cos(radians) * sideOffset;
+  const perpY = leafY + Math.sin(radians) * sideOffset;
+  
+  task.position = {
+    left: perpX - 20, // -20 to center the leaf
+    top: perpY - 20,
+    rotation: angle * 0.3 + rotationOffset,
+    branchIndex: branchIndex
+  };
+
+  task.branchIndex = branchIndex; 
+  
+  if (!tasks.some(t => t.id === task.id)) {
+    tasks.push(task);
+  }
+  saveTasks();
+
+  const noTasksMessage = document.querySelector('.no-tasks');
+  if (noTasksMessage) {
+    noTasksMessage.remove();
+  }
+  
+  renderLeaf(task); 
+}
+
+function clearAllTasks() {
+  if (tasks.length === 0) return;
+  if (!confirm('Are you sure you want to clear all tasks? This action cannot be undone.')) {
+    return;
+  }
+  const allLeaves = document.querySelectorAll('.leaf:not(.falling)');
+  
+  tasks = [];
+  saveTasks();
+  
+  // Apply falling animation to all leaves
+  allLeaves.forEach((leaf, index) => {
+    setTimeout(() => {
+      leaf.classList.add('falling');
+    }, index * 100); // Stagger the animations by 100ms each
+  });
+  
+  // Removes all leaves after animation and shows no-tasks message
+  setTimeout(() => {
+    leavesContainer.innerHTML = '<div class="no-tasks">No Tasks to complete! Add a task to see it appear on the tree!</div>';
+  }, allLeaves.length * 100 + 1500); 
+}
+
+      function closeModal() {
+        taskModal.style.display = 'none';
+        currentTaskId = null;
+        currentLeafElement = null;
+      }
+    
+     function deleteTask() {
+    if (!currentTaskId || !currentLeafElement) return;
+   
+    const leafToRemove = currentLeafElement;
+    const taskIdToRemove = currentTaskId;
+    closeModal();
+  
+    leafToRemove.classList.add('falling');
+    
+    // Immediately removes from tasks array and saves the current tasks
+    tasks = tasks.filter(task => task.id != taskIdToRemove);
+    saveTasks();
+    
+    setTimeout(() => {
+        if (leafToRemove.parentNode) {
+            leafToRemove.remove();
+        }
+        if (tasks.length === 0) {
+            leavesContainer.innerHTML = '<div class="no-tasks">No Tasks to complete! Add a task to see it appear on the tree!</div>';
+        }
+    }, 1500);  
+}
+      
+      function toggleComplete() {
+        if (!currentTaskId) return;
+        
+        const taskIndex = tasks.findIndex(task => task.id == currentTaskId);
+        if (taskIndex === -1) return;
+        
+        tasks[taskIndex].completed = !tasks[taskIndex].completed;
+        saveTasks();
+        renderTasks();
+        
+        if (tasks[taskIndex].completed) {
+          completeBtn.style.display = 'none';
+          incompleteBtn.style.display = 'block';
+        } else {
+          completeBtn.style.display = 'block';
+          incompleteBtn.style.display = 'none';
+        }
+      }
+      
+      function saveTaskChanges() {
+        if (!currentTaskId) return;
+        
+        const taskIndex = tasks.findIndex(task => task.id == currentTaskId);
+        if (taskIndex === -1) return;
+        
+        tasks[taskIndex].name = editTaskName.value;
+        tasks[taskIndex].date = editTaskDate.value;
+        tasks[taskIndex].priority = editTaskPriority.value;
+        tasks[taskIndex].description = editTaskDescription.value;
+        
+        saveTasks();
+        renderTasks();
+        closeModal();
+      }
+    
+      function saveTasks() {
+        localStorage.setItem('treeTasks', JSON.stringify(tasks));
+      }
+    });
+  </script>
+</body>
+</html>
